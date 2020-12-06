@@ -1,5 +1,6 @@
 #include "edges.h"
 #include "euler_characteristic.h"
+#include "Biharmonic_distance.h"
 #include <igl/read_triangle_mesh.h>
 #include <igl/opengl/glfw/Viewer.h>
 
