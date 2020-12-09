@@ -22,6 +22,12 @@ we have included some triangle mesh file in the same directory with executable f
 after compiling you can simply call ./biharmonic <name_of_mesh> <approach you want to use(exact 0/approx1)> <number of eigen vectors used to compute approx distance>
 to run the function.
 
+dependency:
+requires libigl, eigen and spectra library
+
+How to compile:
+The procedure is the same with all other assignments we did
+
 Parameters:
     V: #V by 3 list of mesh vertex positions
     F: #F by 3 list of mesh face indices into V
