@@ -14,4 +14,6 @@
 void biharmonic_distance(
   const Eigen::MatrixXd & V,
   const Eigen::MatrixXi & F,
+  const int approach,
+  const int k,
   Eigen::MatrixXd &D);
