@@ -18,6 +18,10 @@ where lambda is the eigen value and phi is the eigen vector
 Remark: when using approximate approach, some large input surfaces might
 have undesirable performance due to the eigen decomposition not converging.
 
+we have included some triangle mesh file in the same directory with executable file
+after compiling you can simply call ./biharmonic <name_of_mesh> <approach you want to use(exact 0/approx1)> <number of eigen vectors used to compute approx distance>
+to run the function.
+
 Parameters:
     V: #V by 3 list of mesh vertex positions
     F: #F by 3 list of mesh face indices into V
