@@ -19,24 +19,27 @@ Remark: when using approximate approach, some large input surfaces might
 have undesirable performance due to the eigen decomposition not converging.
 
 we have included some triangle mesh file in the same directory with executable file
-after compiling you can simply call ./biharmonic <name_of_mesh> <approach you want to use(exact 0/approx1)> <number of eigen vectors used to compute approx distance>
+after compiling you can simply call <br />./biharmonic <name_of_mesh> <approach you want to use(exact 0/approx1)> <number of eigen vectors used to compute approx distance><br />
 to run the function.
 
-dependency:
+example:<br />
+.\biharmonic.exe .\bunny.off 0 10
+
+dependency:<br />
 requires libigl, eigen and spectra library
 
-How to compile:
+How to compile:<br />
 The procedure is the same with all other assignments we did
 
-Parameters:
-    V: #V by 3 list of mesh vertex positions
-    F: #F by 3 list of mesh face indices into V
-    approach: 0 for exact approach and 1 for approximate approach
-    k: first k eigen vectors to keep
+Parameters:<br />
+    V: #V by 3 list of mesh vertex positions<br />
+    F: #F by 3 list of mesh face indices into V<br />
+    approach: 0 for exact approach and 1 for approximate approach<br />
+    k: first k eigen vectors to keep<br />
 
-Returns:
+Returns:<br />
     D: #V by #V matrix of biharmonic distances where an entry (i,j) is the distance between vertex i and j
 
-Example Output Speed:
-    bunny.off: exact approach is 1.56345s, approximate approach with k = 10 is 0.27575s
-    cactus.obj: exact approach is 3.64s, approximate approach with k = 10 is 0.32s
+Example Output Speed:<br />
+    bunny.off: exact approach is 1.56345s, approximate approach with k = 10 is 0.27575s<br />
+    cactus.obj: exact approach is 3.64s, approximate approach with k = 10 is 0.32s<br />
