@@ -19,7 +19,7 @@ Remark: when using approximate approach, some large input surfaces might
 have undesirable performance due to the eigen decomposition not converging.
 
 we have included some triangle mesh file in the same directory with executable file
-after compiling you can simply call <br />./biharmonic <name_of_mesh> <approach you want to use(exact 0/approx1)> <number of eigen vectors used to compute approx distance><br />
+after compiling you can simply call <br />./biharmonic <name_of_mesh> <approach(0/1)> <num_eig_vectors><br />
 to run the function.
 
 example:<br />
