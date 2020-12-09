@@ -6,6 +6,7 @@
 #include "../spectra/include/Spectra/SymGEigsSolver.h"
 #include "../spectra/include/Spectra/MatOp/SparseCholesky.h"
 #include <iostream>
+#include <chrono> 
 void biharmonic_distance(
     const Eigen::MatrixXd & V,
     const Eigen::MatrixXi & F,
@@ -30,6 +31,8 @@ void biharmonic_distance(
     A_inv.setFromTriplets(trip.begin(), trip.end());
     // exact distance
     if(approach == 0){
+        auto start = std::chrono::high_resolution_clock::now(); 
+        // basically solving equation 10
         new_A = L.transpose() * A_inv * L;
         new_A.row(0) *= 0;
         new_A.col(0) *= 0;
@@ -47,10 +50,15 @@ void biharmonic_distance(
         Eigen::VectorXd V1 = G.diagonal();
         Eigen::MatrixXd m = V1 * Eigen::VectorXd::Ones(V.rows()).transpose();
         D = sqrt((m + m.transpose() - 2*G).array());
+        auto stop = std::chrono::high_resolution_clock::now(); 
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start); 
+        std::cout<<"time for calculating exact dist:"<<duration.count()/1e6<<std::endl;
+
     }
     else{
         // approximate distance
         // solve generalized eigen value problem
+        auto start = std::chrono::high_resolution_clock::now(); 
         Eigen::VectorXd x_minus_y, x_minus_y_sqr;
         D.setZero();
         double dist;
@@ -60,9 +68,10 @@ void biharmonic_distance(
         }
         Spectra::SparseGenMatProd<double> op(L);
         Spectra::SparseCholesky<double> Bop(A);
-        Spectra::SymGEigsSolver<double, Spectra::LARGEST_ALGE, Spectra::SparseGenMatProd<double>, Spectra::SparseCholesky<double>, Spectra::GEIGS_CHOLESKY>geigs(&op, &Bop, this_k-1, this_k * 20);
+        // solving the generalized eigen problem in paper, spectra works nice, hooray!
+        Spectra::SymGEigsSolver<double, Spectra::LARGEST_ALGE, Spectra::SparseGenMatProd<double>, Spectra::SparseCholesky<double>, Spectra::GEIGS_CHOLESKY>geigs(&op, &Bop, this_k-1, this_k * 5);
         geigs.init();
-        int nconv = geigs.compute();
+        int nconv = geigs.compute(1000);
         if(geigs.info() == Spectra::SUCCESSFUL){
             // remove first eigenvalue and its eigenvector because its too small
             Eigen::MatrixXd selected_vec = geigs.eigenvectors().rightCols(k-2);
@@ -70,6 +79,7 @@ void biharmonic_distance(
             Eigen::VectorXd eig_val_sqr = selected_val.array().pow(2);
             for(int i = 0; i < selected_vec.rows() - 1; i++){
                 for(int j = i + 1; j < selected_vec.rows(); j++){
+                    // equation 11
                     x_minus_y = selected_vec.row(i) - selected_vec.row(j);
                     x_minus_y_sqr = x_minus_y.array().pow(2);
                     dist = x_minus_y_sqr.cwiseQuotient(eig_val_sqr).sum();
@@ -77,6 +87,9 @@ void biharmonic_distance(
                 }
             }
         }
+        auto stop = std::chrono::high_resolution_clock::now(); 
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start); 
+        std::cout<<"time for calculating approx dist:"<<duration.count()/1e6<<std::endl;
         
     }
     

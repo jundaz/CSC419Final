@@ -77,6 +77,7 @@
         "regex": "cpp",
         "variant": "cpp",
         "xlocbuf": "cpp",
-        "xlocmes": "cpp"
+        "xlocmes": "cpp",
+        "valarray": "cpp"
     }
 }

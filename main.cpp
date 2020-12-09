@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     // construct pair distances just for once
     Eigen::MatrixXd D;
     // input 0 for exact dist, 1 for approx dist
-    biharmonic_distance(V, F, 1, 50, D);
+    biharmonic_distance(V, F, 1, 10, D);
 
     // bind mouse down call back
     viewer.callback_mouse_down =
