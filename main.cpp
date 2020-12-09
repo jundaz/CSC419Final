@@ -4,7 +4,9 @@
 #include <igl/read_triangle_mesh.h>
 #include <Eigen/Core>
 #include <iostream>
+#include <cstdlib>
 
+// adapted from framework of A5 and tutorial 206 geodesic distance demo.
 int main(int argc, char *argv[]) {
     // load V and F
     Eigen::MatrixXd V;
@@ -15,7 +17,7 @@ int main(int argc, char *argv[]) {
     // construct pair distances just for once
     Eigen::MatrixXd D;
     // input 0 for exact dist, 1 for approx dist
-    biharmonic_distance(V, F, 1, 10, D);
+    biharmonic_distance(V, F, atoi(argv[2]), atoi(argv[3]), D);
 
     // bind mouse down call back
     viewer.callback_mouse_down =
